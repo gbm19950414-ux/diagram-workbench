@@ -1,0 +1,427 @@
+{
+  "schema_version": "diagram-domain-model/v5",
+  "title": "原创图书馆借阅样例",
+  "root_id": "chapter",
+  "content_types": {
+    "schema_version": "semantic-content-types/v1",
+    "entries": [
+      {
+        "id": "plan_process",
+        "label": "方案/过程",
+        "definition": "有顺序、步骤或执行安排的局部整体。",
+        "positive_example": "借阅办理步骤。",
+        "negative_example": "单一术语的定义。",
+        "overlap": "可同时是案例或参数约束。"
+      },
+      {
+        "id": "concept_principle",
+        "label": "概念/原理",
+        "definition": "解释概念含义或一般机制的局部整体。",
+        "positive_example": "何谓馆藏状态。",
+        "negative_example": "某次借阅的记录。",
+        "overlap": "可同时承担论证解释。"
+      },
+      {
+        "id": "parameter_constraint",
+        "label": "参数/约束",
+        "definition": "明确变量、数量、条件或适用边界的局部整体。",
+        "positive_example": "借阅期限和适用条件。",
+        "negative_example": "只列办理步骤而无参数。",
+        "overlap": "可修饰方案过程。"
+      },
+      {
+        "id": "argument_explanation",
+        "label": "论证/解释",
+        "definition": "给出理由、依据或解释联系的局部整体。",
+        "positive_example": "说明为何需要核验馆藏。",
+        "negative_example": "只列物品清单。",
+        "overlap": "可与概念原理共存。"
+      },
+      {
+        "id": "comparison",
+        "label": "比较",
+        "definition": "对两个或多个对象在明确维度上并置差异或共同点。",
+        "positive_example": "纸本与电子借阅方式比较。",
+        "negative_example": "两个相邻但未比较的段落。",
+        "overlap": "可兼有案例。"
+      },
+      {
+        "id": "example",
+        "label": "案例",
+        "definition": "明确受限定的实例、演示或具体情境。",
+        "positive_example": "一次虚构借阅演示。",
+        "negative_example": "一般规则。",
+        "overlap": "可展示方案过程或参数约束。"
+      }
+    ],
+    "unknown_handling": "无法归类时保持候选待核，不自造类别，不把阅读角色当类别。",
+    "sha256": "f836fbfa6ee94c40733ddcb45903f8c600b0bac1660cf378acf1ec8b22fa2eec"
+  },
+  "nodes": [
+    {
+      "id": "chapter",
+      "kind": "chapter",
+      "label": "图书馆借阅记事",
+      "origin": "organization",
+      "evidence": [
+        "story"
+      ],
+      "children": [
+        "section:borrow",
+        "section:return"
+      ]
+    },
+    {
+      "id": "section:borrow",
+      "kind": "section",
+      "label": "借阅登记",
+      "origin": "organization",
+      "evidence": [
+        "story"
+      ],
+      "children": [
+        "block:borrow"
+      ]
+    },
+    {
+      "id": "section:return",
+      "kind": "section",
+      "label": "归还复核",
+      "origin": "organization",
+      "evidence": [
+        "story"
+      ],
+      "children": [
+        "block:return"
+      ]
+    },
+    {
+      "id": "block:borrow",
+      "kind": "block",
+      "label": "借阅路径",
+      "origin": "organization",
+      "evidence": [
+        "story"
+      ],
+      "children": [
+        "e:request",
+        "e:verify"
+      ],
+      "content_types": [
+        "plan_process"
+      ],
+      "focus_refs": [
+        {
+          "object_id": "e:request",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:request 的来源字段"
+        }
+      ]
+    },
+    {
+      "id": "block:return",
+      "kind": "block",
+      "label": "归还结果",
+      "origin": "organization",
+      "evidence": [
+        "story"
+      ],
+      "children": [
+        "e:return",
+        "e:notice"
+      ],
+      "content_types": [
+        "plan_process",
+        "example"
+      ],
+      "focus_refs": [
+        {
+          "object_id": "e:return",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:return 的来源字段"
+        }
+      ]
+    },
+    {
+      "id": "e:request",
+      "kind": "action",
+      "label": "读者提出借阅请求。",
+      "origin": "source",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "e:verify",
+      "kind": "condition",
+      "label": "馆员核验馆藏状态。",
+      "origin": "source",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "e:return",
+      "kind": "action",
+      "label": "读者归还图书。",
+      "origin": "source",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "e:notice",
+      "kind": "example",
+      "label": "一次归还记录展示复核结果。",
+      "origin": "source",
+      "evidence": [
+        "story"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "r:request-return",
+      "relation_form": "source_atomic",
+      "type": "supports",
+      "label": "支持",
+      "from": "e:request",
+      "to": "e:return",
+      "direction": "directed",
+      "origin": "source",
+      "basis": "explicit",
+      "evidence": [
+        "story"
+      ],
+      "qualifiers": [
+        {
+          "applies_to": "relation",
+          "dimension": "scope",
+          "source_ref": {
+            "object_id": "e:request",
+            "field_path": "/label",
+            "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source": "story",
+            "value": "e:request 的来源字段"
+          }
+        }
+      ]
+    },
+    {
+      "id": "r:verify-notice",
+      "relation_form": "source_atomic",
+      "type": "supports",
+      "label": "支持",
+      "from": "e:verify",
+      "to": "e:notice",
+      "direction": "directed",
+      "origin": "source",
+      "basis": "explicit",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "r:request-verify",
+      "relation_form": "source_atomic",
+      "type": "precedes",
+      "label": "先于",
+      "from": "e:request",
+      "to": "e:verify",
+      "direction": "directed",
+      "origin": "source",
+      "basis": "explicit",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "r:inferred-atomic",
+      "relation_form": "source_atomic",
+      "type": "qualifies",
+      "label": "限定",
+      "from": "e:notice",
+      "to": "e:return",
+      "direction": "directed",
+      "origin": "interpretation",
+      "basis": "project_interpretation",
+      "evidence": [
+        "story"
+      ],
+      "rationale": "合成例子的已发布要素解释。",
+      "premises": [
+        {
+          "object_id": "e:notice",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:notice 的来源字段"
+        }
+      ]
+    },
+    {
+      "id": "org:rollup",
+      "relation_form": "source_rollup",
+      "type": "supports",
+      "label": "支持",
+      "from": "block:borrow",
+      "to": "block:return",
+      "direction": "directed",
+      "origin": "source",
+      "basis": "source_rollup",
+      "evidence": [
+        "story"
+      ],
+      "from_element_ids": [
+        "e:request",
+        "e:verify"
+      ],
+      "to_element_ids": [
+        "e:return",
+        "e:notice"
+      ],
+      "supporting_edge_ids": [
+        "r:request-return",
+        "r:verify-notice"
+      ],
+      "endpoint_pairs": [
+        {
+          "edge_id": "r:request-return",
+          "from": "e:request",
+          "to": "e:return"
+        },
+        {
+          "edge_id": "r:verify-notice",
+          "from": "e:verify",
+          "to": "e:notice"
+        }
+      ],
+      "premises": [
+        {
+          "object_id": "e:request",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:request 的来源字段"
+        }
+      ]
+    },
+    {
+      "id": "org:native",
+      "relation_form": "source_native",
+      "type": "precedes",
+      "label": "先于",
+      "from": "block:borrow",
+      "to": "block:return",
+      "direction": "directed",
+      "origin": "source",
+      "basis": "explicit",
+      "evidence": [
+        "story"
+      ],
+      "from_element_ids": [
+        "e:verify"
+      ],
+      "to_element_ids": [
+        "e:return"
+      ],
+      "premises": [
+        {
+          "object_id": "e:verify",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:verify 的来源字段"
+        }
+      ],
+      "scope_note": "只限定馆藏核验与归还动作。",
+      "qualifiers": [
+        {
+          "applies_to": "to",
+          "dimension": "time",
+          "source_ref": {
+            "object_id": "e:return",
+            "field_path": "/label",
+            "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "source": "story",
+            "value": "e:return 的来源字段"
+          }
+        }
+      ]
+    },
+    {
+      "id": "org:inference",
+      "relation_form": "project_inference",
+      "type": "elaborates",
+      "label": "阐释",
+      "from": "block:borrow",
+      "to": "section:return",
+      "direction": "directed",
+      "origin": "interpretation",
+      "basis": "project_interpretation",
+      "evidence": [
+        "story"
+      ],
+      "from_element_ids": [
+        "e:request"
+      ],
+      "to_element_ids": [
+        "e:notice"
+      ],
+      "premises": [
+        {
+          "object_id": "e:request",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:request 的来源字段"
+        },
+        {
+          "object_id": "e:notice",
+          "field_path": "/label",
+          "content_revision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source": "story",
+          "value": "e:notice 的来源字段"
+        }
+      ],
+      "overall_effect": "将借阅请求和归还记录放在同一虚构流程中阅读。",
+      "rationale": "两个范围呈现办理前后，但没有声明底层同类型边。",
+      "scope_note": "仅这两个成员，不涵盖其他办理环节。"
+    }
+  ],
+  "reading_order": [
+    "e:request",
+    "e:verify",
+    "e:return",
+    "e:notice"
+  ],
+  "reading_structures": [
+    {
+      "id": "structure:borrow",
+      "scope_id": "block:borrow",
+      "pattern": "explanation",
+      "core_ids": [
+        "e:request"
+      ],
+      "supports": [
+        {
+          "node_id": "e:verify",
+          "anchor_id": "e:request",
+          "role": "condition"
+        }
+      ],
+      "independent_ids": [],
+      "reading_order": [
+        "e:request",
+        "e:verify"
+      ],
+      "evidence": [
+        "story"
+      ]
+    }
+  ]
+}

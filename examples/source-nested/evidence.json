@@ -1,0 +1,7 @@
+{
+  "sources": {
+    "guide": {"path":"docs/guide.md","label":"Fictional archive guide","location":"Section 1","excerpt":"The archive sorts requests before retrieval."},
+    "record": {"path":"docs/record.md","label":"Fictional retrieval record","location":"Record 2","excerpt":"A damaged item receives a separate note."}
+  },
+  "invariants": {}
+}

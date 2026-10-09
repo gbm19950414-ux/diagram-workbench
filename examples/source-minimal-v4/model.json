@@ -1,0 +1,201 @@
+{
+  "schema_version": "diagram-domain-model/v4",
+  "title": "虚构钟楼记录",
+  "root_id": "chapter",
+  "nodes": [
+    {
+      "id": "chapter",
+      "label": "钟楼的记录",
+      "kind": "chapter",
+      "origin": "organization",
+      "evidence": [
+        "ledger"
+      ],
+      "children": [
+        "s1",
+        "s2",
+        "alone"
+      ]
+    },
+    {
+      "id": "s1",
+      "label": "第一节 校准钟声",
+      "kind": "section",
+      "origin": "organization",
+      "evidence": [
+        "ledger"
+      ],
+      "children": [
+        "bell",
+        "clock",
+        "weather"
+      ]
+    },
+    {
+      "id": "s2",
+      "label": "第二节 复核记录",
+      "kind": "section",
+      "origin": "organization",
+      "evidence": [
+        "ledger"
+      ],
+      "children": [
+        "log"
+      ],
+      "related_element_ids": [
+        "bell"
+      ]
+    },
+    {
+      "id": "bell",
+      "label": "值班员在日出前校准铜钟。",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ],
+      "source_revision": "r1"
+    },
+    {
+      "id": "clock",
+      "label": "石英钟显示六时。",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ],
+      "source_revision": "r2"
+    },
+    {
+      "id": "weather",
+      "label": "屋顶风标保持静止。",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ],
+      "source_revision": "r1"
+    },
+    {
+      "id": "log",
+      "label": "复核簿记录钟声时间。",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ],
+      "source_revision": "r3"
+    },
+    {
+      "id": "alone",
+      "label": "备用钥匙封存在门旁。",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ],
+      "source_revision": "r1"
+    }
+  ],
+  "edges": [
+    {
+      "id": "condition",
+      "from": "bell",
+      "to": "clock",
+      "type": "conditions",
+      "label": "条件",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "compare",
+      "from": "clock",
+      "to": "log",
+      "type": "contrasts_with",
+      "label": "对照",
+      "direction": "symmetric",
+      "origin": "source",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "loop",
+      "from": "clock",
+      "to": "clock",
+      "type": "causes",
+      "label": "导致",
+      "direction": "directed",
+      "origin": "interpretation",
+      "evidence": [
+        "ledger"
+      ],
+      "premises": [
+        {
+          "source": "ledger",
+          "object_id": "clock",
+          "content_revision": "r2",
+          "field_path": "label"
+        }
+      ],
+      "rationale": "仅用作环形推测关系的合成例子。"
+    },
+    {
+      "id": "overview",
+      "from": "s1",
+      "to": "s2",
+      "type": "elaborates",
+      "label": "阐释",
+      "direction": "directed",
+      "origin": "interpretation",
+      "evidence": [
+        "ledger"
+      ],
+      "from_element_ids": [
+        "bell"
+      ],
+      "to_element_ids": [
+        "log"
+      ],
+      "premises": [
+        {
+          "source": "ledger",
+          "object_id": "bell",
+          "content_revision": "r1",
+          "field_path": "label"
+        }
+      ],
+      "rationale": "跨节端点限于校准与复核两项。"
+    }
+  ],
+  "reading_order": [
+    "bell",
+    "clock",
+    "weather",
+    "log",
+    "alone"
+  ],
+  "reading_structures": [
+    {
+      "id": "partial",
+      "scope_id": "s1",
+      "pattern": "explanation",
+      "core_ids": [
+        "bell"
+      ],
+      "supports": [
+        {
+          "node_id": "clock",
+          "anchor_id": "bell",
+          "role": "detail"
+        }
+      ],
+      "evidence": [
+        "ledger"
+      ]
+    }
+  ]
+}

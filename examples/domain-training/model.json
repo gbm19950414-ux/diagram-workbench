@@ -1,0 +1,126 @@
+{
+  "schema_version": "diagram-domain-model/v1",
+  "title": "虚构训练演示",
+  "groups": [
+    {
+      "id": "flow",
+      "label": "主要流程"
+    },
+    {
+      "id": "notes",
+      "label": "补充说明"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "ready",
+      "label": "已知条件齐备",
+      "kind": "状态",
+      "group": "flow",
+      "order": 1,
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "running",
+      "label": "核对虚构条件",
+      "kind": "状态",
+      "group": "flow",
+      "order": 2,
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "done",
+      "label": "记录候选调整",
+      "kind": "状态",
+      "group": "flow",
+      "order": 3,
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "note",
+      "label": "其他适用条件",
+      "kind": "说明",
+      "group": "notes",
+      "order": 4,
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "isolated",
+      "label": "来源未回答的观察",
+      "kind": "观察",
+      "group": "notes",
+      "status": "unknown",
+      "reason": "虚构示例未提供观察结果。",
+      "order": 5,
+      "evidence": [
+        "spec"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "begin",
+      "label": "开始",
+      "from": "ready",
+      "to": "running",
+      "direction": "directed",
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "finish",
+      "label": "完成",
+      "from": "running",
+      "to": "done",
+      "direction": "directed",
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "retry",
+      "label": "重新检查",
+      "from": "done",
+      "to": "running",
+      "direction": "directed",
+      "evidence": [
+        "spec"
+      ]
+    },
+    {
+      "id": "compare",
+      "label": "对比",
+      "from": "ready",
+      "to": "note",
+      "direction": "symmetric",
+      "evidence": [
+        "spec"
+      ]
+    }
+  ],
+  "traces": [
+    {
+      "id": "case1",
+      "label": "已保存的正常路径",
+      "description": "此合成记录选择开始与完成；页面只高亮既有路径。",
+      "node_ids": [
+        "ready",
+        "running",
+        "done"
+      ],
+      "edge_ids": [
+        "begin",
+        "finish"
+      ]
+    }
+  ]
+}

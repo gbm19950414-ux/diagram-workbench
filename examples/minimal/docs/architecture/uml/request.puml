@@ -1,0 +1,8 @@
+@startuml
+' @model reader catalog
+title Read saved titles — fictional example
+actor Reader
+participant Catalog
+Reader -> Catalog: Request saved titles
+Catalog --> Reader: Titles
+@enduml

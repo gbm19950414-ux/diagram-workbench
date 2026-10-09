@@ -1,0 +1,242 @@
+{
+  "schema_version": "diagram-domain-model/v2",
+  "title": "Fictional archive reading map",
+  "root_id": "archive",
+  "reading_order": [
+    "request",
+    "queue",
+    "note",
+    "speculation"
+  ],
+  "nodes": [
+    {
+      "id": "archive",
+      "label": "Archive guide",
+      "kind": "chapter",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "intake",
+        "retrieval"
+      ],
+      "summary": [
+        {
+          "id": "overview",
+          "text": "Requests are sorted before retrieval.",
+          "origin": "source",
+          "evidence": [
+            "guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intake",
+      "label": "Intake",
+      "kind": "topic",
+      "role": "mainline",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "sorting",
+        "shared"
+      ],
+      "summary": [
+        {
+          "id": "intake-source",
+          "text": "The desk records requests.",
+          "origin": "source",
+          "evidence": [
+            "guide"
+          ]
+        },
+        {
+          "id": "intake-guess",
+          "text": "An alternative route may be useful.",
+          "origin": "interpretation",
+          "evidence": [
+            "record"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retrieval",
+      "label": "Retrieval",
+      "kind": "topic",
+      "role": "supporting",
+      "origin": "organization",
+      "evidence": [
+        "record"
+      ],
+      "children": [
+        "shared"
+      ]
+    },
+    {
+      "id": "sorting",
+      "label": "Sorting block",
+      "kind": "block",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "request",
+        "queue",
+        "speculation"
+      ]
+    },
+    {
+      "id": "shared",
+      "label": "Record block",
+      "kind": "block",
+      "origin": "organization",
+      "evidence": [
+        "record"
+      ],
+      "children": [
+        "note"
+      ],
+      "related_element_ids": [
+        "request"
+      ]
+    },
+    {
+      "id": "request",
+      "label": "Record requested item",
+      "kind": "action",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "queue",
+      "label": "Queue eligible request",
+      "kind": "action",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "note",
+      "label": "Damage note",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "record"
+      ]
+    },
+    {
+      "id": "speculation",
+      "label": "Alternative route idea",
+      "kind": "idea",
+      "origin": "interpretation",
+      "evidence": [
+        "record"
+      ],
+      "details": {
+        "rationale": "A route might help if the queue stalls.",
+        "uncertainty": "No archive rule supports it."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "topic-link",
+      "label": "passes requests toward",
+      "from": "intake",
+      "to": "retrieval",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ],
+      "supporting_edge_ids": [
+        "flow"
+      ],
+      "scope_note": "Only eligible requests."
+    },
+    {
+      "id": "block-link",
+      "label": "records for",
+      "from": "sorting",
+      "to": "shared",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ],
+      "supporting_edge_ids": [
+        "flow"
+      ],
+      "scope_note": "Only the recorded item."
+    },
+    {
+      "id": "flow",
+      "label": "passes to queue",
+      "from": "request",
+      "to": "queue",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "compare",
+      "label": "compared with",
+      "from": "queue",
+      "to": "note",
+      "direction": "symmetric",
+      "origin": "source",
+      "evidence": [
+        "record"
+      ]
+    },
+    {
+      "id": "loop",
+      "label": "returns to request",
+      "from": "queue",
+      "to": "request",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "guess",
+      "label": "might bypass",
+      "from": "speculation",
+      "to": "note",
+      "direction": "directed",
+      "origin": "interpretation",
+      "evidence": [
+        "record"
+      ],
+      "details": {
+        "rationale": "Possible alternate route.",
+        "premises": [
+          "Queue stalls"
+        ],
+        "uncertainty": "Unverified"
+      },
+      "rationale": "Possible alternate route.",
+      "premises": [
+        {
+          "object_id": "queue",
+          "field": "status",
+          "revision": "synthetic-r1"
+        }
+      ],
+      "uncertainty": "Unverified"
+    }
+  ]
+}

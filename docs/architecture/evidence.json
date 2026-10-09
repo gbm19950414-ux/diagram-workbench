@@ -1,0 +1,100 @@
+{
+  "sources": {
+    "overview": {
+      "path": "README.md",
+      "label": "用途与日常绘图流程"
+    },
+    "configuration": {
+      "path": "docs/configuration.md",
+      "label": "配置与适配器接口"
+    },
+    "integration": {
+      "path": "docs/integration.md",
+      "label": "项目接入与版本维护"
+    },
+    "workflows": {
+      "path": "docs/workflows.md",
+      "label": "对话工作流与提示词"
+    },
+    "toolchainTemplate": {
+      "path": "templates/toolchain.json",
+      "label": "新项目的固定渲染工具链模板"
+    },
+    "cliSource": {
+      "path": "bin/diagram-workbench.mjs",
+      "label": "CLI 参数入口"
+    },
+    "engine": {
+      "path": "src/workbench.mjs",
+      "label": "构建、审查与预览实现"
+    },
+    "checks": {
+      "path": "src/checks.mjs",
+      "label": "引用、快照与产物检查"
+    },
+    "integrationTests": {
+      "path": "test/integration.test.mjs",
+      "label": "独立消费者的真实渲染回归"
+    },
+    "targets": {
+      "path": "src/targets.mjs",
+      "label": "目标选择及 validateTargetModel / renderTarget 合同"
+    },
+    "domain": {
+      "path": "src/domain-model.mjs",
+      "label": "通用领域模型校验和呈现"
+    },
+    "domainTests": {
+      "path": "test/domain.test.mjs",
+      "label": "领域目标、依据和失败保留回归"
+    }
+  },
+  "elements": {
+    "author": [
+      "overview"
+    ],
+    "workbench": [
+      "overview",
+      "configuration",
+      "integration"
+    ],
+    "cli": [
+      "cliSource",
+      "engine",
+      "checks",
+      "workflows",
+      "toolchainTemplate",
+      "targets",
+      "domain",
+      "domainTests"
+    ],
+    "renderers": [
+      "engine"
+    ],
+    "git": [
+      "engine"
+    ],
+    "graphviz": [
+      "engine"
+    ]
+  },
+  "invariants": {
+    "explicitReview": {
+      "text": "构建不会创建或刷新语义审查断言。",
+      "sources": [
+        "engine",
+        "checks",
+        "integrationTests"
+      ],
+      "tests": []
+    },
+    "lastSuccess": {
+      "text": "失败构建保留上一次成功的 site 与 runtime。",
+      "sources": [
+        "engine",
+        "integrationTests"
+      ],
+      "tests": []
+    }
+  }
+}

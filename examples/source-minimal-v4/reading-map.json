@@ -1,0 +1,194 @@
+{
+  "schema_version": "source-reading-map/v2",
+  "title": "虚构钟楼记录",
+  "model_sha256": "60adf629bd0889e6040d2f0691f0dde12efe247daf8466c8e43ea35e0d621e09",
+  "root_id": "root",
+  "author": {
+    "identity": "synthetic fixture",
+    "model": "fiction"
+  },
+  "containers": [
+    {
+      "id": "root",
+      "parent_id": null,
+      "kind": "chapter",
+      "title": "钟楼的记录",
+      "object_id": "chapter",
+      "order": 0,
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "sec1",
+      "parent_id": "root",
+      "kind": "section",
+      "title": "第一节 校准钟声",
+      "object_id": "s1",
+      "order": 0,
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "sec2",
+      "parent_id": "root",
+      "kind": "section",
+      "title": "第二节 复核记录",
+      "object_id": "s2",
+      "order": 1,
+      "evidence": [
+        "ledger"
+      ]
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "o-bell",
+      "parent_id": "sec1",
+      "object_id": "bell",
+      "order": 0,
+      "spans": [
+        {
+          "paragraph_id": "p1",
+          "start": 0,
+          "end": 12
+        }
+      ]
+    },
+    {
+      "id": "o-clock",
+      "parent_id": "sec1",
+      "object_id": "clock",
+      "order": 1,
+      "spans": [
+        {
+          "paragraph_id": "p2",
+          "start": 0,
+          "end": 8
+        }
+      ]
+    },
+    {
+      "id": "o-weather",
+      "parent_id": "sec1",
+      "object_id": "weather",
+      "order": 2,
+      "spans": [
+        {
+          "paragraph_id": "p3",
+          "start": 0,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "id": "o-log",
+      "parent_id": "sec2",
+      "object_id": "log",
+      "order": 0,
+      "spans": [
+        {
+          "paragraph_id": "p4",
+          "start": 0,
+          "end": 10
+        }
+      ]
+    },
+    {
+      "id": "o-bell-ref",
+      "parent_id": "sec2",
+      "object_id": "bell",
+      "order": 1,
+      "spans": [
+        {
+          "paragraph_id": "p1",
+          "start": 0,
+          "end": 12
+        }
+      ]
+    },
+    {
+      "id": "o-alone",
+      "parent_id": "root",
+      "object_id": "alone",
+      "order": 2,
+      "spans": [
+        {
+          "paragraph_id": "p5",
+          "start": 0,
+          "end": 10
+        }
+      ]
+    }
+  ],
+  "paragraphs": [
+    {
+      "id": "p1",
+      "locator": "L1",
+      "order": 0,
+      "text": "值班员在日出前校准铜钟。",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "p2",
+      "locator": "L2",
+      "order": 1,
+      "text": "石英钟显示六时。",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "p3",
+      "locator": "L3",
+      "order": 2,
+      "text": "屋顶风标保持静止。",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "p4",
+      "locator": "L4",
+      "order": 3,
+      "text": "复核簿记录钟声时间。",
+      "evidence": [
+        "ledger"
+      ]
+    },
+    {
+      "id": "p5",
+      "locator": "L5",
+      "order": 4,
+      "text": "备用钥匙封存在门旁。",
+      "evidence": [
+        "ledger"
+      ]
+    }
+  ],
+  "edge_routes": [
+    {
+      "edge_id": "condition",
+      "from_id": "o-bell",
+      "to_id": "o-clock"
+    },
+    {
+      "edge_id": "compare",
+      "from_id": "o-clock",
+      "to_id": "o-log"
+    },
+    {
+      "edge_id": "loop",
+      "from_id": "o-clock",
+      "to_id": "o-clock"
+    },
+    {
+      "edge_id": "overview",
+      "from_id": "sec1",
+      "to_id": "sec2"
+    }
+  ]
+}

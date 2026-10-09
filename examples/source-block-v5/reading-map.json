@@ -1,0 +1,196 @@
+{
+  "schema_version": "source-reading-map/v2",
+  "title": "图书馆借阅原文阅读",
+  "model_sha256": "67b09811f1ce82e8682c296f60d46087ba9884ac7da0479eb0edfa74cb1485f1",
+  "root_id": "root",
+  "author": {
+    "identity": "synthetic",
+    "model": "fictional"
+  },
+  "containers": [
+    {
+      "id": "root",
+      "parent_id": null,
+      "kind": "chapter",
+      "title": "图书馆借阅记事",
+      "object_id": "chapter",
+      "order": 0,
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "borrow",
+      "parent_id": "root",
+      "kind": "section",
+      "title": "借阅登记",
+      "object_id": "section:borrow",
+      "order": 1,
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "return",
+      "parent_id": "root",
+      "kind": "section",
+      "title": "归还复核",
+      "object_id": "section:return",
+      "order": 2,
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "borrow-block",
+      "parent_id": "borrow",
+      "kind": "block",
+      "title": "借阅路径",
+      "object_id": "block:borrow",
+      "order": 1,
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "return-block",
+      "parent_id": "return",
+      "kind": "block",
+      "title": "归还结果",
+      "object_id": "block:return",
+      "order": 1,
+      "evidence": [
+        "story"
+      ]
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "o1",
+      "parent_id": "borrow-block",
+      "object_id": "e:request",
+      "order": 1,
+      "spans": [
+        {
+          "paragraph_id": "p1",
+          "start": 0,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "id": "o2",
+      "parent_id": "borrow-block",
+      "object_id": "e:verify",
+      "order": 2,
+      "spans": [
+        {
+          "paragraph_id": "p2",
+          "start": 0,
+          "end": 9
+        }
+      ]
+    },
+    {
+      "id": "o3",
+      "parent_id": "return-block",
+      "object_id": "e:return",
+      "order": 3,
+      "spans": [
+        {
+          "paragraph_id": "p3",
+          "start": 0,
+          "end": 7
+        }
+      ]
+    },
+    {
+      "id": "o4",
+      "parent_id": "return-block",
+      "object_id": "e:notice",
+      "order": 4,
+      "spans": [
+        {
+          "paragraph_id": "p4",
+          "start": 0,
+          "end": 13
+        }
+      ]
+    }
+  ],
+  "paragraphs": [
+    {
+      "id": "p1",
+      "locator": "fiction:1",
+      "order": 1,
+      "text": "读者提出借阅请求。",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "p2",
+      "locator": "fiction:2",
+      "order": 2,
+      "text": "馆员核验馆藏状态。",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "p3",
+      "locator": "fiction:3",
+      "order": 3,
+      "text": "读者归还图书。",
+      "evidence": [
+        "story"
+      ]
+    },
+    {
+      "id": "p4",
+      "locator": "fiction:4",
+      "order": 4,
+      "text": "一次归还记录展示复核结果。",
+      "evidence": [
+        "story"
+      ]
+    }
+  ],
+  "edge_routes": [
+    {
+      "edge_id": "r:request-return",
+      "from_id": "o1",
+      "to_id": "o3"
+    },
+    {
+      "edge_id": "r:verify-notice",
+      "from_id": "o2",
+      "to_id": "o4"
+    },
+    {
+      "edge_id": "r:request-verify",
+      "from_id": "o1",
+      "to_id": "o2"
+    },
+    {
+      "edge_id": "r:inferred-atomic",
+      "from_id": "o4",
+      "to_id": "o3"
+    },
+    {
+      "edge_id": "org:rollup",
+      "from_id": "borrow-block",
+      "to_id": "return-block"
+    },
+    {
+      "edge_id": "org:native",
+      "from_id": "borrow-block",
+      "to_id": "return-block"
+    },
+    {
+      "edge_id": "org:inference",
+      "from_id": "borrow-block",
+      "to_id": "return"
+    }
+  ]
+}

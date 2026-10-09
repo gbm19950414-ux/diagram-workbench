@@ -1,0 +1,31 @@
+@startuml
+' @model author cli renderers
+' @invariant explicitReview lastSuccess
+title 构建流程：生成不等于审查通过
+actor "使用者 / 代理" as Author
+participant "CLI / 构建协调器" as CLI
+database "使用项目：源文件与 review" as Sources
+participant "Structurizr / PlantUML" as Render
+database "临时构建目录" as Temp
+database "当前 site 与 runtime" as Current
+Author -> CLI: build --project <root>
+CLI -> Sources: 校验来源与引用，读取输入指纹和审查记录
+alt software-architecture（缺省）
+    CLI -> Render: 验证和渲染自包含 DSL / UML
+    Render --> Temp: 结构导出、SVG
+else domain-model
+    CLI -> CLI: validateTargetModel：节点、关系、证据、轨迹
+    CLI -> Temp: renderTarget：内置 SVG / HTML，不启动原生服务
+end
+CLI -> Temp: 通用阅读页、项目附加页与 receipt
+CLI -> Sources: 再次核对输入指纹
+alt 输入稳定且全部成功
+    CLI -> Current: 备份旧目录，再替换 site 与 runtime
+    note right of Current: 替换错误时恢复两者
+    CLI --> Author: 构建完成，保留原审查状态
+else 渲染失败或输入改变
+    CLI -> Temp: 清理失败的临时构建
+    CLI --> Author: 明确失败，保留当前成功结果
+end
+note over CLI, Sources: build 不创建或刷新 review；语义判断由使用者 / 代理完成
+@enduml

@@ -1,0 +1,8 @@
+{
+  "sources": {
+    "ledger": {
+      "path": "docs/story.md",
+      "label": "Synthetic observatory ledger"
+    }
+  }
+}

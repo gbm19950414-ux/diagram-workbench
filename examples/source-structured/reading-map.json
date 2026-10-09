@@ -1,0 +1,398 @@
+{
+  "schema_version": "source-reading-map/v1",
+  "title": "馆藏原书嵌套阅读（虚构）",
+  "model_sha256": "928122d4cd821652f969a42459e6d302fd6ae3e77ace75f3a1eef26b38f605ac",
+  "root_id": "chapter:library",
+  "author": {
+    "identity": "synthetic fixture author",
+    "model": "unknown"
+  },
+  "containers": [
+    {
+      "id": "chapter:library",
+      "parent_id": null,
+      "kind": "chapter",
+      "title": "馆藏",
+      "order": 0,
+      "evidence": [
+        "guide"
+      ],
+      "summary": {
+        "text": "目录阅读示例",
+        "origin": "source",
+        "evidence": [
+          "guide"
+        ]
+      }
+    },
+    {
+      "id": "section:collection",
+      "parent_id": "chapter:library",
+      "kind": "section",
+      "title": "馆藏管理",
+      "order": 1,
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "section:intake",
+      "parent_id": "section:collection",
+      "kind": "section",
+      "title": "入库",
+      "object_id": "intake",
+      "order": 2,
+      "evidence": [
+        "guide"
+      ],
+      "summary": {
+        "text": "入库前先核对请求。",
+        "origin": "source",
+        "evidence": [
+          "guide"
+        ]
+      }
+    },
+    {
+      "id": "section:retrieval",
+      "parent_id": "chapter:library",
+      "kind": "section",
+      "title": "检索",
+      "object_id": "retrieval",
+      "order": 3,
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "section:intake/block:sorting",
+      "parent_id": "section:intake",
+      "kind": "block",
+      "title": "分拣过程中保留入库来源、交接位置与后续检索所需的完整记录",
+      "object_id": "sorting",
+      "order": 4,
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "section:intake/block:shared",
+      "parent_id": "section:intake",
+      "kind": "block",
+      "title": "共享索引引用",
+      "object_id": "shared",
+      "order": 5,
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "section:retrieval/block:shared",
+      "parent_id": "section:retrieval",
+      "kind": "block",
+      "title": "共享索引",
+      "object_id": "shared",
+      "order": 6,
+      "evidence": [
+        "guide"
+      ]
+    }
+  ],
+  "occurrences": [
+    {
+      "id": "section:intake/block:sorting/request:0",
+      "parent_id": "section:intake/block:sorting",
+      "object_id": "request",
+      "order": 0,
+      "spans": [
+        {
+          "paragraph_id": "p7",
+          "start": 0,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:sorting/queue:1",
+      "parent_id": "section:intake/block:sorting",
+      "object_id": "queue",
+      "order": 1,
+      "spans": [
+        {
+          "paragraph_id": "p8",
+          "start": 0,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:sorting/note:2",
+      "parent_id": "section:intake/block:sorting",
+      "object_id": "note",
+      "order": 2,
+      "spans": [
+        {
+          "paragraph_id": "p9",
+          "start": 0,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:sorting/isolated:3",
+      "parent_id": "section:intake/block:sorting",
+      "object_id": "isolated",
+      "order": 3,
+      "spans": [
+        {
+          "paragraph_id": "p10",
+          "start": 0,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:sorting/speculation:4",
+      "parent_id": "section:intake/block:sorting",
+      "object_id": "speculation",
+      "order": 4,
+      "spans": [
+        {
+          "paragraph_id": "p11",
+          "start": 0,
+          "end": 25
+        }
+      ]
+    },
+    {
+      "id": "section:retrieval/block:shared/queue:5",
+      "parent_id": "section:retrieval/block:shared",
+      "object_id": "queue",
+      "order": 5,
+      "spans": [
+        {
+          "paragraph_id": "p8",
+          "start": 0,
+          "end": 4
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:shared/note:extra",
+      "parent_id": "section:intake/block:shared",
+      "object_id": "note",
+      "order": 900,
+      "spans": [
+        {
+          "paragraph_id": "p0",
+          "start": 0,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:shared/request:extra",
+      "parent_id": "section:intake/block:shared",
+      "object_id": "request",
+      "order": 901,
+      "spans": [
+        {
+          "paragraph_id": "p0",
+          "start": 0,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:shared/queue:extra",
+      "parent_id": "section:intake/block:shared",
+      "object_id": "queue",
+      "order": 902,
+      "spans": [
+        {
+          "paragraph_id": "p0",
+          "start": 0,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "id": "section:intake/block:shared/offmap:extra",
+      "parent_id": "section:intake/block:shared",
+      "object_id": "offmap",
+      "order": 903,
+      "spans": [
+        {
+          "paragraph_id": "p0",
+          "start": 0,
+          "end": 1
+        }
+      ]
+    },
+    {
+      "id": "section:retrieval/block:shared/note:extra",
+      "parent_id": "section:retrieval/block:shared",
+      "object_id": "note",
+      "order": 1500,
+      "spans": [
+        {
+          "paragraph_id": "p0",
+          "start": 0,
+          "end": 1
+        }
+      ]
+    }
+  ],
+  "paragraphs": [
+    {
+      "id": "p0",
+      "locator": "folio:0",
+      "order": 0,
+      "text": "馆藏目录",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p1",
+      "locator": "folio:1",
+      "order": 1,
+      "text": "收集规则",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p2",
+      "locator": "folio:2",
+      "order": 2,
+      "text": "入库流程",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p3",
+      "locator": "folio:3",
+      "order": 3,
+      "text": "请保留完整原文与表格。\n\n| 列 | 值 |\n| --- | --- |\n| 周日 | 375×5 |",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p4",
+      "locator": "folio:4",
+      "order": 4,
+      "text": "<table><tr><td rowspan=\"2\">跨行</td><td>  空格 </td></tr><tr><td></td></tr></table>",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p5",
+      "locator": "folio:5",
+      "order": 5,
+      "text": "检索流程",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p6",
+      "locator": "folio:6",
+      "order": 6,
+      "text": "共享索引",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p7",
+      "locator": "folio:7",
+      "order": 7,
+      "text": "请求入列",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p8",
+      "locator": "folio:8",
+      "order": 8,
+      "text": "队列留痕",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p9",
+      "locator": "folio:9",
+      "order": 9,
+      "text": "记录对照",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p10",
+      "locator": "folio:10",
+      "order": 10,
+      "text": "孤立记录",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p11",
+      "locator": "folio:11",
+      "order": 11,
+      "text": "<script>alert(1)</script>",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "p12",
+      "locator": "folio:12",
+      "order": 12,
+      "text": "续页原文",
+      "evidence": [
+        "guide"
+      ],
+      "continues_from": "p3"
+    }
+  ],
+  "edge_routes": [
+    {
+      "edge_id": "topic-link",
+      "from_id": "section:intake",
+      "to_id": "section:retrieval"
+    },
+    {
+      "edge_id": "block-link",
+      "from_id": "section:intake/block:sorting",
+      "to_id": "section:retrieval/block:shared"
+    },
+    {
+      "edge_id": "flow",
+      "from_id": "section:intake/block:sorting/request:0",
+      "to_id": "section:intake/block:sorting/queue:1"
+    },
+    {
+      "edge_id": "compare",
+      "from_id": "section:intake/block:sorting/queue:1",
+      "to_id": "section:intake/block:sorting/note:2"
+    },
+    {
+      "edge_id": "loop",
+      "from_id": "section:intake/block:sorting/queue:1",
+      "to_id": "section:intake/block:sorting/request:0"
+    },
+    {
+      "edge_id": "guess",
+      "from_id": "section:intake/block:sorting/speculation:4",
+      "to_id": "section:intake/block:sorting/note:2"
+    }
+  ]
+}

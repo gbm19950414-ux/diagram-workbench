@@ -1,0 +1,41 @@
+{
+  "name": "diagram-workbench",
+  "version": "0.11.1",
+  "private": true,
+  "type": "module",
+  "description": "Evidence-linked diagrams with software and domain drawing targets.",
+  "bin": {
+    "diagram-workbench": "bin/diagram-workbench.mjs"
+  },
+  "exports": {
+    ".": "./src/workbench.mjs",
+    "./checks": "./src/checks.mjs"
+  },
+  "files": [
+    "src",
+    "bin",
+    "skills",
+    "docs/configuration.md",
+    "docs/integration.md",
+    "docs/workflows.md",
+    "templates",
+    "examples",
+    "README.md",
+    "CHANGELOG.md",
+    "docs/reader.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "test": "node --test test/unit.test.mjs test/config.test.mjs test/domain.test.mjs test/domain-v2.test.mjs test/domain-v2-presentation.test.mjs test/nested-source.test.mjs test/reading-structures.test.mjs test/minimal-v4.test.mjs test/block-v5.test.mjs test/reader.test.mjs",
+    "test:integration": "node --test test/integration.test.mjs test/domain-integration.test.mjs"
+  },
+  "dependencies": {
+    "elkjs": "0.11.0",
+    "markdown-it": "14.1.0"
+  },
+  "bundledDependencies": [
+    "elkjs"
+  ]
+}

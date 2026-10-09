@@ -1,0 +1,160 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+import vm from 'node:vm';
+import {validateDomainModel} from '../src/domain-model.mjs';
+import {validateReadingMap,visibleRelations,layoutVisible,nestedSvg,defaultExpanded,sourceKindName,shortRelationLabel,relationValueLabel,sourceReferencePresentation,nearestSourceSection,sectionBlockIds,setSectionBlocksExpanded,relationIdentityCounts,relationBasisName} from '../src/nested-source.mjs';
+import {createWorkbench} from '../src/workbench.mjs';
+
+const dir=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../examples/source-block-v5');
+const load=name=>JSON.parse(fs.readFileSync(path.join(dir,name)));
+const fixture=()=>({model:load('model.json'),map:load('reading-map.json'),manifest:load('evidence.json'),digest:createHash('sha256').update(fs.readFileSync(path.join(dir,'model.json'))).digest('hex')});
+
+test('v5 relation labels keep long table endpoints compact while full values remain available on demand',()=>{
+  const long='18周个案按每周一三五保留原值。\n\n逐项值：\n<table><tr><td>第1周</td><td>185磅</td></tr></table>';
+  assert.equal(shortRelationLabel(long),'18周个案按每周一三五保留原值。…');
+  assert.equal(shortRelationLabel('<table><tr><td>周一</td></tr></table>'),'表格原文…');
+  assert.equal(relationValueLabel('possible'),'可选');
+  assert.equal(relationValueLabel(long),long);
+  assert.equal(relationValueLabel({amount:'5',unit:'次重复/正式组',basis:'硬拉剂量',scope:'与1组配对'}),'5 次重复/正式组 · 基准：硬拉剂量 · 范围：与1组配对');
+  assert.equal(relationValueLabel({amount:'5',unit:'次',other:'保留'}),'{"amount":"5","unit":"次","other":"保留"}');
+  assert.deepEqual(sourceReferencePresentation({value:long},{label:long}),{value:long,linkLabel:'查看来源'});
+  assert.deepEqual(sourceReferencePresentation({value:'5次'},{label:'剂量来源'}),{value:'5次',linkLabel:'剂量来源'});
+});
+
+test('section batch controls only change blocks in the chosen source section',()=>{
+  const {map}=fixture();
+  assert.equal(nearestSourceSection(map,'o1'),'borrow');
+  assert.equal(nearestSourceSection(map,'o3'),'return');
+  assert.equal(nearestSourceSection(map,'root'),null);
+  assert.deepEqual(sectionBlockIds(map,'borrow'),['borrow-block']);
+  assert.deepEqual(sectionBlockIds(map,'return'),['return-block']);
+  const initial=new Set(['root','borrow','return','return-block','o1']);
+  const opened=setSectionBlocksExpanded(map,initial,'borrow',true);
+  assert.deepEqual([...opened],['root','borrow','return','return-block','o1','borrow-block']);
+  const closed=setSectionBlocksExpanded(map,opened,'borrow',false);
+  assert.deepEqual([...closed],[...initial]);
+  assert.deepEqual([...setSectionBlocksExpanded(map,initial,'unknown',true)],[...initial]);
+});
+
+test('relation legend counts real basis without reclassifying roll-ups',()=>{
+  const {model}=fixture();
+  assert.deepEqual(relationIdentityCounts(model),{explicit:4,inferred:0,project:2,rollup:1});
+  const native=model.edges.find(edge=>edge.id==='org:native');
+  native.basis='inferred_from_source';native.rationale='Synthetic source context.';
+  assert.deepEqual(relationIdentityCounts(model),{explicit:3,inferred:1,project:2,rollup:1});
+  assert.equal(relationBasisName(native),'来源隐含');
+  assert.equal(relationBasisName(model.edges.find(edge=>edge.id==='org:rollup')),'来源汇总');
+  assert.equal(relationBasisName(model.edges.find(edge=>edge.id==='org:inference')),'补充推测');
+});
+
+test('v5 validates all relation forms, exact roll-up pairs and independent high-level claims',()=>{
+  const {model,map,manifest,digest}=fixture();
+  assert.doesNotThrow(()=>validateDomainModel(model,manifest,dir));
+  assert.doesNotThrow(()=>validateReadingMap(map,model,manifest,digest));
+  assert.equal(sourceKindName(model.nodes.find(n=>n.id==='e:notice').kind),'示例');
+  const reject=(change,match)=>{const copy=structuredClone(model);change(copy);assert.throws(()=>validateDomainModel(copy,manifest,dir),match);};
+  reject(m=>m.nodes.find(n=>n.kind==='block').content_types=['invented'],/Unknown content type/);
+  reject(m=>m.nodes.find(n=>n.kind==='block').focus_refs=[],/Missing focus_refs/);
+  reject(m=>m.edges.find(e=>e.id==='org:native').premises=[],/Invalid premises/);
+  reject(m=>m.edges.find(e=>e.id==='org:inference').to_element_ids=['e:verify'],/Out-of-scope/);
+  reject(m=>m.edges.find(e=>e.id==='org:inference').rationale='',/rationale/);
+  reject(m=>m.edges.find(e=>e.id==='org:rollup').endpoint_pairs=[{edge_id:'r:request-return',from:'e:request',to:'e:notice'},{edge_id:'r:verify-notice',from:'e:verify',to:'e:return'}],/endpoint_pairs/);
+  reject(m=>m.edges.find(e=>e.id==='org:rollup').from_element_ids=['e:request'],/Roll-up endpoint mismatch|member union/);
+  reject(m=>m.edges.find(e=>e.id==='org:rollup').qualifiers=m.edges.find(e=>e.id==='r:request-return').qualifiers,/Roll-up qualifier not shared/);
+  reject(m=>m.edges.find(e=>e.id==='org:native').qualifiers[0].source_ref.content_revision='stale',/source reference/);
+  reject(m=>m.edges.push({...m.edges.find(e=>e.id==='r:request-verify'),id:'r:duplicate',from:'e:verify',to:'e:return'}),/Native relation duplicates atomic edge/);
+  const noLeaf=structuredClone(model);noLeaf.edges=noLeaf.edges.filter(e=>!['r:request-verify','r:inferred-atomic'].includes(e.id));assert.doesNotThrow(()=>validateDomainModel(noLeaf,manifest,dir));
+});
+
+test('v5 folded roll-up represents its atomic routes, then expansion restores exact endpoints',async()=>{
+  const {model,map}=fixture(),visible=new Set(['root','borrow','return','borrow-block','return-block']);
+  const groups=visibleRelations(map,model,visible).routes;
+  assert.equal(groups.find(g=>g.edgeIds.includes('org:rollup')).caption,'支持');
+  assert.equal(groups.find(g=>g.edgeIds.includes('org:native')).caption,'先于 · 部分成员');
+  assert.equal(groups.find(g=>g.edgeIds.includes('org:inference')).caption,'阐释 · 部分成员');
+  assert.ok(groups.some(g=>g.edgeIds.includes('org:native')&&g.edgeIds.length===1));
+  assert.ok(groups.some(g=>g.edgeIds.includes('org:rollup')&&g.edgeIds.length===1));
+  assert.ok(groups.some(g=>g.edgeIds.includes('org:inference')&&g.edgeIds.length===1));
+  assert.ok(groups.every(g=>!g.edgeIds.includes('r:request-return')&&!g.edgeIds.includes('r:verify-notice')));
+  const withoutRollup=structuredClone(map);withoutRollup.edge_routes=withoutRollup.edge_routes.filter(route=>route.edge_id!=='org:rollup');
+  assert.ok(visibleRelations(withoutRollup,model,visible).routes.some(g=>g.edgeIds.includes('r:request-return')));
+  assert.ok(visibleRelations(withoutRollup,model,visible).routes.some(g=>g.edgeIds.includes('r:verify-notice')));
+  const unfolded=visibleRelations(map,model,new Set([...visible,'o1','o2','o3','o4'])).routes;
+  assert.ok(unfolded.some(g=>g.from==='o1'&&g.to==='o3'&&g.edgeIds.includes('r:request-return')));
+  assert.ok(unfolded.some(g=>g.from==='o2'&&g.to==='o4'&&g.edgeIds.includes('r:verify-notice')));
+  assert.ok(!unfolded.some(g=>g.edgeIds.includes('org:rollup')));
+  assert.ok(unfolded.some(g=>g.edgeIds.includes('org:native')));
+  assert.ok(unfolded.some(g=>g.edgeIds.includes('org:inference')));
+  assert.ok(visibleRelations(map,model,new Set([...visible,'o1','o3'])).routes.some(g=>g.edgeIds.includes('org:rollup')));
+  assert.ok(!visibleRelations(map,model,new Set([...visible,'o1','o2','o3','o4']),'source').routes.some(g=>g.edgeIds.includes('org:rollup')));
+  assert.ok(visibleRelations(map,model,new Set([...visible,'o3','o4'])).routes.some(g=>g.edgeIds.includes('r:inferred-atomic')&&g.origin==='interpretation'));
+  assert.ok(visibleRelations(map,model,visible,'source').routes.every(g=>g.origin==='source'));
+  const expanded=new Set([...defaultExpanded(map),'borrow','return','borrow-block','return-block']);
+  const layout=await layoutVisible(map,expanded,model),svg=nestedSvg(map,model,layout,expanded);
+  assert.match(svg,/示例/);assert.match(svg,/条件/);assert.match(svg,/方案\/过程/);
+  assert.match(svg,/aria-label="知识块 · 借阅路径 · 内容类型 方案\/过程"/);
+  assert.doesNotMatch(svg,/知识块 · 方案\/过程/);
+  assert.match(svg,/data-edges="org:inference"/);assert.match(svg,/ns-edge interpretation/);
+  assert.doesNotMatch(nestedSvg(map,model,await layoutVisible(map,expanded,model,'source'),expanded,'source'),/data-edges="org:inference"/);
+});
+
+test('v5 folded internal relations have one accessible entrance per container',async()=>{
+  const {model,map}=fixture();
+  model.edges.push({...structuredClone(model.edges.find(edge=>edge.id==='r:request-verify')),id:'r:additional',type:'supports',label:'支持'});
+  model.edges.push({...structuredClone(model.edges.find(edge=>edge.id==='r:inferred-atomic')),id:'r:internal-inference',from:'e:request',to:'e:verify'});
+  map.edge_routes.push({edge_id:'r:additional',from_id:'o1',to_id:'o2'},{edge_id:'r:internal-inference',from_id:'o1',to_id:'o2'});
+  const visible=new Set(['root','borrow','return','borrow-block','return-block']);
+  const all=visibleRelations(map,model,visible),source=visibleRelations(map,model,visible,'source');
+  assert.equal(all.internals.size,2);assert.equal(all.internals.get('borrow-block').edgeIds.size,3);
+  assert.equal(source.internals.get('borrow-block').edgeIds.size,2);
+  const expanded=new Set([...defaultExpanded(map),'borrow','return']);
+  const svg=nestedSvg(map,model,await layoutVisible(map,expanded,model),expanded);
+  assert.equal([...svg.matchAll(/class="ns-internal"/g)].length,2);
+  assert.match(svg,/内含3条关系/);assert.doesNotMatch(svg,/来源原子|项目推测/);
+  const sourceSvg=nestedSvg(map,model,await layoutVisible(map,expanded,model,'source'),expanded,'source');
+  assert.match(sourceSvg,/内含2条关系/);assert.doesNotMatch(sourceSvg,/r:internal-inference/);
+});
+
+test('v5 public review, build and check package browser details',async t=>{
+  const project=fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(),'block-v5-')));fs.cpSync(dir,project,{recursive:true});t.after(()=>fs.rmSync(project,{recursive:true,force:true}));
+  const workbench=await createWorkbench({project});
+  await workbench.main(['review','--reviewer','fictional-fixture','--decision','updated','--note','Original synthetic v5 relation fixture.']);
+  await workbench.main(['build']);await workbench.main(['check']);
+  const site=path.join(project,'.diagrams/site'),html=fs.readFileSync(path.join(site,'index.html'),'utf8');
+  for(const token of ['sourceKindName','relationFormName','paintV5Detail','来源汇总','来源原生','项目推测','内容类型','原子端点对','借阅路径'])assert.match(html,new RegExp(token));
+  assert.match(html,/内含\$\{group\.edgeIds\.size\}条关系/);
+  assert.match(html,/if\(ids\.length>1\)/);
+  assert.match(html,/button\.dataset\.edges=id/);
+  assert.match(html,/button\.dataset\.object=id/);
+  assert.match(html,/const fold=add\('details','',row\)/);
+  assert.match(html,/const shortRelationLabel=/);
+  assert.match(html,/const sourceReferencePresentation=/);
+  assert.match(html,/class="ns-mobile-kind" aria-hidden="true">示例<\/span>/);
+  assert.match(html,/class="ns-mobile-kind" aria-hidden="true">方案\/过程<\/span>/);
+  assert.match(html,/aria-label="示例 · /);
+  assert.match(html,/aria-label="知识块 · 方案\/过程 · /);
+  assert.match(html,/\.ns-mobile-kind\{display:none\}/);
+  const mobileCss=html.match(/@media\(max-width:700px\)\{([\s\S]*?)<\/style>/)?.[1];
+  assert.ok(mobileCss);
+  assert.match(mobileCss,/\.ns-tree\{display:block!important;position:static;top:auto;max-height:none;overflow:visible\}/);
+  assert.match(mobileCss,/\.ns-mobile-kind\{display:inline-block/);
+  assert.match(html,/filterSourceSelection/);
+  assert.match(html,/id="ns-section"/);
+  assert.match(html,/展开本节知识块/);
+  assert.match(html,/收起本节知识块/);
+  assert.match(html,/原文明示 4 条/);
+  assert.match(html,/来源隐含 0 条/);
+  assert.match(html,/补充推测 2 条/);
+  assert.match(html,/来源汇总 1 条/);
+  assert.match(html,/q\.set\('section',sectionScope\)/);
+  assert.match(html,/来源汇总引用/);
+  assert.match(html,/edges\.get\(pair\.edge_id\)\?\.qualifiers/);
+  assert.match(html,/button\.dataset\.edges=pair\.edge_id/);
+  for(const match of html.matchAll(/<script>([\s\S]*?)<\/script>/g))new vm.Script(match[1]);
+  assert.match(fs.readFileSync(path.join(site,'images/nested-initial.svg'),'utf8'),/data-edges="org:native"/);
+});

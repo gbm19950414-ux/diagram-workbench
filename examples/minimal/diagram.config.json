@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "workspace": "docs/architecture/workspace.dsl",
+  "uml": "docs/architecture/uml",
+  "evidence": "docs/architecture/evidence.json",
+  "toolchain": "docs/architecture/toolchain.json",
+  "review": "docs/architecture/review.json",
+  "output": ".architecture",
+  "deniedPaths": ["private"],
+  "inputs": ["README.md"],
+  "watch": [{"directory": "notes", "extensions": [".md"]}],
+  "portal": {"title": "Reading List · Independent Example"}
+}

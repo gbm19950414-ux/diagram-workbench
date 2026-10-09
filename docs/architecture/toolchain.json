@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "structurizr": {
+    "version": "2026.06.28",
+    "file": "structurizr.war",
+    "url": "https://download.structurizr.com/structurizr-2026.06.28.war",
+    "sha256": "7bcee3932b1a6e62c07113008ec4959ced6700f666a3d02f708a1a2ebfdefed0"
+  },
+  "plantuml": {
+    "version": "1.2026.2",
+    "file": "plantuml.jar",
+    "url": "https://repo.maven.apache.org/maven2/net/sourceforge/plantuml/plantuml/1.2026.2/plantuml-1.2026.2.jar",
+    "sha256": "7a3eacbccd08311f14b107b1254e179adc1f81fa8bd52bbaf563a37f00ea026f"
+  },
+  "java": {
+    "version": "Temurin 21.0.12+101.0.LTS macOS arm64 JRE",
+    "file": "java.tar.gz",
+    "url": "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jre_aarch64_mac_hotspot_21.0.12.1_1.tar.gz",
+    "sha256": "dec50fc6f9fcd4fe3ae8cabf5a5fa68f6afc48841f7698e468e9aa5d54beed84",
+    "home": "jdk-21.0.12.1+1-jre/Contents/Home"
+  }
+}

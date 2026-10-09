@@ -1,0 +1,5 @@
+{
+  "sources": {"spec": {"path": "README.md", "label": "Example specification"}},
+  "elements": {"reader": ["spec"], "catalog": ["spec"]},
+  "invariants": {}
+}

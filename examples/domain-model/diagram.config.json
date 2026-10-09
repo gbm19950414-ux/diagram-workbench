@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "target": "domain-model",
+  "model": "model.json",
+  "evidence": "evidence.json",
+  "review": "review.json",
+  "output": ".diagrams",
+  "inputs": [],
+  "watch": []
+}

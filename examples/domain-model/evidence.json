@@ -1,0 +1,9 @@
+{
+  "sources": {
+    "spec": {
+      "path": "README.md",
+      "label": "合成合同"
+    }
+  },
+  "invariants": {}
+}

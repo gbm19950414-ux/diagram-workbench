@@ -1,0 +1,10 @@
+{
+  "sources": {
+    "story": {
+      "path": "docs/story.md",
+      "label": "虚构图书馆样例",
+      "excerpt": "原创合成材料",
+      "location": "fiction:1–4"
+    }
+  }
+}

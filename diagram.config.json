@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "workspace": "docs/architecture/workspace.dsl",
+  "uml": "docs/architecture/uml",
+  "evidence": "docs/architecture/evidence.json",
+  "toolchain": "docs/architecture/toolchain.json",
+  "review": "docs/architecture/review.json",
+  "output": ".architecture",
+  "deniedPaths": ["private"],
+  "inputs": ["README.md", "AGENTS.md", "package.json", "package-lock.json", "docs/configuration.md", "docs/integration.md", "skills/diagram-workbench/SKILL.md"],
+  "watch": [
+    {"directory": "src", "extensions": [".mjs"]},
+    {"directory": "bin", "extensions": [".mjs"]},
+    {"directory": "test", "extensions": [".mjs"]}
+  ],
+  "portal": {"title": "Diagram Workbench · 自身结构、构建与审查", "intro": "先看结构边界，再检查构建失败时如何保留结果，以及输入变化如何触发复审。项目自身是正式示例，独立小夹具仅用于回归测试。"}
+}

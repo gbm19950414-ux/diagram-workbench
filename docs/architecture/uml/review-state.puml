@@ -1,0 +1,30 @@
+@startuml
+' @model author cli
+' @invariant explicitReview
+title 初始化、审查状态与产物新鲜度是三个检查条件
+[*] --> Scaffold: init
+state "draft scaffold\n尚未建立项目事实" as Scaffold
+state "needs-review" as NeedsReview
+state "reviewed-snapshot\n产物尚未对应当前输入" as NeedsBuild
+state "reviewed-snapshot\n产物与输入一致" as Current
+Scaffold --> NeedsReview: 建立证据与当前态模型
+NeedsReview --> NeedsReview: build（不会解除复审）
+NeedsReview --> NeedsBuild: 已完成语义审查后显式 review
+NeedsBuild --> Current: build 成功，check 通过
+NeedsBuild --> NeedsBuild: build 失败，旧产物保留
+Current --> NeedsReview: 来源 / 图源 / 配置 / 适配器 / 引擎变化
+NeedsBuild --> NeedsReview: 审查后输入再次变化
+Current --> NeedsBuild: 生成物删除或篡改；check 失败
+note right of NeedsReview
+  updated 与 no-impact 都需要
+  审查者、范围和依据。
+end note
+note right of Scaffold
+  init 不推断架构事实，
+  也不创建 review。
+end note
+note right of Current
+  check 通过不证明图的语义，
+  也不表示部署或现场资格。
+end note
+@enduml

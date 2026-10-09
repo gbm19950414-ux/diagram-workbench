@@ -1,0 +1,391 @@
+{
+  "schema_version": "diagram-domain-model/v3",
+  "title": "Fictional archive reading map",
+  "root_id": "archive",
+  "reading_order": [
+    "request",
+    "queue",
+    "note",
+    "speculation",
+    "isolated",
+    "offmap"
+  ],
+  "nodes": [
+    {
+      "id": "archive",
+      "label": "Archive guide",
+      "kind": "chapter",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "intake",
+        "retrieval",
+        "isolated"
+      ],
+      "summary": [
+        {
+          "id": "overview",
+          "text": "Requests are sorted before retrieval.",
+          "origin": "source",
+          "evidence": [
+            "guide"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "intake",
+      "label": "Intake",
+      "kind": "topic",
+      "role": "mainline",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "sorting",
+        "shared"
+      ],
+      "summary": [
+        {
+          "id": "intake-source",
+          "text": "The desk records requests.",
+          "origin": "source",
+          "evidence": [
+            "guide"
+          ]
+        },
+        {
+          "id": "intake-guess",
+          "text": "An alternative route may be useful.",
+          "origin": "interpretation",
+          "evidence": [
+            "record"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "retrieval",
+      "label": "Retrieval",
+      "kind": "topic",
+      "role": "supporting",
+      "origin": "organization",
+      "evidence": [
+        "record"
+      ],
+      "children": [
+        "shared"
+      ]
+    },
+    {
+      "id": "sorting",
+      "label": "Sorting block",
+      "kind": "block",
+      "origin": "organization",
+      "evidence": [
+        "guide"
+      ],
+      "children": [
+        "request",
+        "queue",
+        "speculation"
+      ],
+      "related_element_ids": [
+        "note",
+        "isolated"
+      ]
+    },
+    {
+      "id": "shared",
+      "label": "Record block",
+      "kind": "block",
+      "origin": "organization",
+      "evidence": [
+        "record"
+      ],
+      "children": [
+        "note",
+        "offmap"
+      ],
+      "related_element_ids": [
+        "request",
+        "queue"
+      ]
+    },
+    {
+      "id": "request",
+      "label": "入库请求需核对来源记录、交接路径和完整证据后再进入队列，任何表格不得被标题当作执行步骤",
+      "kind": "action",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "queue",
+      "label": "Queue eligible request",
+      "kind": "action",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "note",
+      "label": "Damage note",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "record"
+      ]
+    },
+    {
+      "id": "speculation",
+      "label": "Alternative route idea",
+      "kind": "idea",
+      "origin": "interpretation",
+      "evidence": [
+        "record"
+      ],
+      "details": {
+        "rationale": "A route might help if the queue stalls.",
+        "uncertainty": "No archive rule supports it."
+      }
+    },
+    {
+      "id": "isolated",
+      "label": "孤立的校验记录",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "offmap",
+      "label": "仅在冻结知识块中存在而未纳入小样的对象",
+      "kind": "record",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "topic-link",
+      "label": "passes requests toward",
+      "from": "intake",
+      "to": "retrieval",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ],
+      "supporting_edge_ids": [
+        "flow"
+      ],
+      "scope_note": "Only eligible requests."
+    },
+    {
+      "id": "block-link",
+      "label": "records for",
+      "from": "sorting",
+      "to": "shared",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ],
+      "supporting_edge_ids": [
+        "flow"
+      ],
+      "scope_note": "Only the recorded item."
+    },
+    {
+      "id": "flow",
+      "label": "passes to queue",
+      "from": "request",
+      "to": "queue",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "compare",
+      "label": "compared with",
+      "from": "queue",
+      "to": "note",
+      "direction": "symmetric",
+      "origin": "source",
+      "evidence": [
+        "record"
+      ]
+    },
+    {
+      "id": "loop",
+      "label": "returns to request",
+      "from": "queue",
+      "to": "request",
+      "direction": "directed",
+      "origin": "source",
+      "evidence": [
+        "guide"
+      ]
+    },
+    {
+      "id": "guess",
+      "label": "might bypass",
+      "from": "speculation",
+      "to": "note",
+      "direction": "directed",
+      "origin": "interpretation",
+      "evidence": [
+        "record"
+      ],
+      "details": {
+        "rationale": "Possible alternate route.",
+        "premises": [
+          "Queue stalls"
+        ],
+        "uncertainty": "Unverified"
+      },
+      "rationale": "Possible alternate route.",
+      "premises": [
+        {
+          "object_id": "queue",
+          "field": "status",
+          "revision": "synthetic-r1"
+        }
+      ],
+      "uncertainty": "Unverified"
+    }
+  ],
+  "reading_structures": [
+    {
+      "id": "structure:overview",
+      "scope_id": "archive",
+      "pattern": "multiple",
+      "core_ids": [
+        "intake",
+        "retrieval"
+      ],
+      "supports": [],
+      "independent_ids": [
+        "isolated"
+      ],
+      "reading_order": [
+        "intake",
+        "retrieval",
+        "isolated"
+      ],
+      "evidence": [
+        "guide"
+      ],
+      "rationale": "Synthetic arrangement for renderer verification."
+    },
+    {
+      "id": "structure:intake",
+      "scope_id": "intake",
+      "pattern": "sequence",
+      "core_ids": [
+        "sorting",
+        "shared"
+      ],
+      "supports": [],
+      "independent_ids": [],
+      "reading_order": [
+        "sorting",
+        "shared"
+      ],
+      "evidence": [
+        "guide"
+      ],
+      "rationale": "Synthetic arrangement for renderer verification."
+    },
+    {
+      "id": "structure:retrieval",
+      "scope_id": "retrieval",
+      "pattern": "explanation",
+      "core_ids": [
+        "shared"
+      ],
+      "supports": [],
+      "independent_ids": [],
+      "reading_order": [
+        "shared"
+      ],
+      "evidence": [
+        "guide"
+      ],
+      "rationale": "Synthetic arrangement for renderer verification."
+    },
+    {
+      "id": "structure:sorting",
+      "scope_id": "sorting",
+      "pattern": "comparison",
+      "core_ids": [
+        "request",
+        "queue"
+      ],
+      "supports": [
+        {
+          "node_id": "note",
+          "anchor_id": "request",
+          "role": "example"
+        }
+      ],
+      "independent_ids": [
+        "isolated"
+      ],
+      "reading_order": [
+        "request",
+        "note",
+        "queue",
+        "isolated"
+      ],
+      "evidence": [
+        "guide"
+      ],
+      "rationale": "Synthetic arrangement for renderer verification."
+    },
+    {
+      "id": "structure:shared",
+      "scope_id": "shared",
+      "pattern": "explanation",
+      "core_ids": [
+        "note"
+      ],
+      "supports": [
+        {
+          "node_id": "request",
+          "anchor_id": "note",
+          "role": "condition"
+        },
+        {
+          "node_id": "queue",
+          "anchor_id": "note",
+          "role": "detail"
+        }
+      ],
+      "independent_ids": [
+        "offmap"
+      ],
+      "reading_order": [
+        "note",
+        "request",
+        "queue",
+        "offmap"
+      ],
+      "evidence": [
+        "guide"
+      ],
+      "rationale": "Synthetic arrangement for renderer verification."
+    }
+  ]
+}
