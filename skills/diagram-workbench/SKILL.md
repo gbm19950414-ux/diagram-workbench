@@ -9,6 +9,8 @@ Read the consumer's diagram configuration, selected drawing target and relevant 
 
 Treat the user's request as one of four modes. Ask only when the project path, source authority, or desired current/proposed state is materially ambiguous.
 
+When choosing, naming or reconciling views, read [architecture-views.md](references/architecture-views.md). Inventory existing views first and normally update them; add a view only for a distinct concern, scope or level. Use a standard diagram name plus a short scenario, and separately state its plain-language question, notation, status and scope. Reuse source-owned names/questions in reading entrances. Preserve existing paths, stable IDs, business names and original source headings; keep a compact view inventory in the consumer's architecture documentation.
+
 - **Establish**: for a new consumer, optionally run `init`; inventory its instructions and evidence before replacing the scaffold with a current-state model. Configure watch scopes deliberately. Do not record `review` for a generated scaffold.
 - **Maintain**: for a requested change, identify impact on the selected model first. Update source and evidence when it changes a modelled fact; otherwise record `no-impact` with the reason. Finish the relevant tests, `review`, `build`, and `check`.
 - **Calibrate**: begin read-only. Compare the model, evidence and declared watched inputs to project facts; mark unknowns rather than inventing them. If asked to repair drift, continue with the Maintain sequence.

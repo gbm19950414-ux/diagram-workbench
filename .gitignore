@@ -2,5 +2,6 @@ node_modules/
 .architecture/
 *.tgz
 .DS_Store
+*.publish.lock
 
 .diagrams/

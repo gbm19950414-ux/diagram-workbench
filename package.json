@@ -1,7 +1,8 @@
 {
   "name": "diagram-workbench",
-  "version": "0.11.1",
+  "version": "0.11.2-rc.1",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "description": "Evidence-linked diagrams with software and domain drawing targets.",
   "bin": {
@@ -22,7 +23,12 @@
     "examples",
     "README.md",
     "CHANGELOG.md",
-    "docs/reader.md"
+    "docs/reader.md",
+    "docs/installation.md",
+    "docs/for-a-friend.md",
+    "docs/troubleshooting.md",
+    "THIRD_PARTY.md",
+    "LICENSE"
   ],
   "engines": {
     "node": ">=22"
@@ -33,7 +39,7 @@
   },
   "dependencies": {
     "elkjs": "0.11.0",
-    "markdown-it": "14.1.0"
+    "markdown-it": "14.3.2"
   },
   "bundledDependencies": [
     "elkjs"
