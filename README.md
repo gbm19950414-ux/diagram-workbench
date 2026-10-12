@@ -1,6 +1,6 @@
 # Diagram Workbench
 
-## 公开版 · 0.11.2-rc.1
+## 公开版 · 0.11.2-rc.2
 
 本仓库提供架构图与领域模型的共享工具、Codex skill 和虚构示例。模型事实、审查结论及生成物由使用项目保存；生成图本身不证明内容正确。原创代码和文档采用 [MIT 许可证](LICENSE)；随包交付的第三方组件保留其原许可证。`package.json` 的 `private: true` 仅阻止误发 npm registry，不限制这个 GitHub 仓库的开源使用。
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.2-rc.2 — clearer installation preflight
+
+- Show concrete Homebrew commands when Node.js, npm or Graphviz is missing.
+
 ## 0.11.2-rc.1 — shareable release candidate
 
 - Add MIT licensing, third-party notices, fixed-version Codex skill installation, examples, and contribution workflow.

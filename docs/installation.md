@@ -1,6 +1,6 @@
 # 安装、升级与回退
 
-首版目标环境为 Apple 芯片 Mac、Codex、Node.js 22+、npm。软件架构图另需 Graphviz (`dot -V`)；首次 `setup` 需要联网下载固定 SHA-256 的 Java、Structurizr 和 PlantUML。领域模型不需要这些原生渲染器。开始前检查 `uname -m`、`node --version`、`npm --version`、`dot -V`；缺少命令时先用各工具的官方安装说明完成安装。
+首版目标环境为 Apple 芯片 Mac、Codex、Node.js 22+、npm。软件架构图另需 Graphviz (`dot -V`)；首次 `setup` 需要联网下载固定 SHA-256 的 Java、Structurizr 和 PlantUML。领域模型不需要这些原生渲染器。开始前检查 `uname -m`、`node --version`、`npm --version`、`dot -V`；在已安装 Homebrew 的 Mac 上，可用 `brew install node graphviz` 补齐缺失依赖，再核对 Node.js 不低于 22。
 
 ## 两项独立安装
 
@@ -11,7 +11,7 @@ Codex skill 提供工作步骤；npm 包提供绘图 CLI。安装一个不会自
 ```sh
 git clone https://github.com/gbm19950414-ux/diagram-workbench.git
 cd diagram-workbench
-git checkout v0.11.2-rc.1
+git checkout v0.11.2-rc.2
 npm ci
 sh scripts/install-skill.sh install
 sh scripts/install-skill.sh status
@@ -25,7 +25,7 @@ sh scripts/install-skill.sh status
 npm pack
 ```
 
-把生成的 `diagram-workbench-0.11.2-rc.1.tgz` 复制到消费者项目中受版本管理的 `tools/vendor/`；从消费者项目根运行 `npm install --save ./tools/vendor/diagram-workbench-0.11.2-rc.1.tgz`，并提交项目的 `package.json`、`package-lock.json` 和包文件。随后在消费者项目调用 `./node_modules/.bin/diagram-workbench`。本仓库的 `private: true` 阻止误发 npm registry，不影响 GitHub 下载或本地 `npm pack`。
+把生成的 `diagram-workbench-0.11.2-rc.2.tgz` 复制到消费者项目中受版本管理的 `tools/vendor/`；从消费者项目根运行 `npm install --save ./tools/vendor/diagram-workbench-0.11.2-rc.2.tgz`，并提交项目的 `package.json`、`package-lock.json` 和包文件。随后在消费者项目调用 `./node_modules/.bin/diagram-workbench`。本仓库的 `private: true` 阻止误发 npm registry，不影响 GitHub 下载或本地 `npm pack`。
 
 ## 更新或回退
 
