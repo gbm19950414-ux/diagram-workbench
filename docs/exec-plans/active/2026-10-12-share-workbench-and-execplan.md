@@ -18,10 +18,11 @@
   "execution_status": "active",
   "assessment": {
     "outcome": "insufficient_evidence",
-    "summary": "两个候选版已公开且本机及线上验证通过；尚无另一位使用者电脑上的实际试用和协作闭环证据，不能发布稳定版",
+    "summary": "两个 rc.2 候选版已公开且本机及线上验证通过；尚无另一位使用者电脑上的实际试用和协作闭环证据，不能发布稳定版",
     "evidence": [
       "ExecPlan: https://github.com/gbm19950414-ux/exec-plan/releases/tag/v0.1.0-rc.1；CI 38193168594 成功；发布资产 SHA-256 e1f279ab241be4030ff64115339e89fd30f8df7a6d77a00ef023ae101ffe7470",
-      "Workbench: https://github.com/gbm19950414-ux/diagram-workbench/releases/tag/v0.11.2-rc.1；PR CI 38193537032 与主分支 CI 38193763055 成功；发布资产 SHA-256 585e1ad74848f0c3dc0cddd3b88078baa5e3ec7496ac7f648312ad631ffe63e7"
+      "Workbench: https://github.com/gbm19950414-ux/diagram-workbench/releases/tag/v0.11.2-rc.2；PR CI 38194461140 与主分支 CI 38194647767 成功；发布资产 SHA-256 8e1fe71c5f070b4c36abb5326eddf9d17450b91c78ffca883979593a10392718",
+      "ExecPlan 更新版: https://github.com/gbm19950414-ux/exec-plan/releases/tag/v0.1.0-rc.2；PR CI 38194461411 与主分支 CI 38194520155 成功；发布资产 SHA-256 6a17afa3149c481a60805df56d0b796b105d469c56698b0f7ce4f5e686401bde"
     ]
   },
   "milestones": [
@@ -53,8 +54,8 @@
         "onboarding"
       ],
       "evidence": [
-        "ExecPlan v0.1.0-rc.1 与 Workbench v0.11.2-rc.1 已作为 GitHub 预发布上传版本化压缩包及 SHA-256，重新下载并校验通过",
-        "ExecPlan CI 38193168594、Workbench PR CI 38193537032 和主分支 CI 38193763055 均通过；Workbench CI 包含 macOS arm64 原生渲染与真实安装包示例"
+        "ExecPlan v0.1.0-rc.2 与 Workbench v0.11.2-rc.2 已作为 GitHub 预发布上传版本化压缩包及 SHA-256，重新下载并校验通过；先前 rc.1 资产不变",
+        "ExecPlan PR CI 38194461411 与主分支 CI 38194520155、Workbench PR CI 38194461140 与主分支 CI 38194647767 均通过；Workbench CI 包含 macOS arm64 原生渲染与真实安装包示例"
       ]
     },
     {
@@ -68,18 +69,18 @@
     }
   ],
   "next_action": "请另一位使用者在 Apple 芯片 Mac 上按两仓库的一页指引试用，回传系统、Codex、Node/Python/Graphviz 版本及示例结果，并提交一个 Issue 和文档 PR；验证后才决定稳定版",
-  "updated_at": "2026-10-12T10:00:00+08:00",
-  "published_sha256": "ed627054e86970dcd7f0a08be8f46ab1238c63ca42eb9ea036280a9caeb14f56"
+  "updated_at": "2026-10-12T10:12:30+08:00",
+  "published_sha256": "ebfb753811d1e8a5871aa035bd68857cc6a1a752b4492afe169b232d315e47ac"
 }
 ```
 <!-- execplan-progress:end -->
 
 <!-- execplan-summary:start -->
 <!-- Generated from the JSON above; edit the JSON, not these checkboxes. -->
-- [x] (2026-10-12T10:00:00+08:00) source · 整理两个独立公开仓库与许可 [完成]
-- [x] (2026-10-12T10:00:00+08:00) onboarding · 安装、示例、贡献与升级文档可独立使用 [完成]
-- [x] (2026-10-12T10:00:00+08:00) candidate · 自动与本机验证通过并发布候选版本 [完成]
-- [ ] (2026-10-12T10:00:00+08:00) trial · 使用者实测与协作闭环后发布稳定版 [待做]
+- [x] (2026-10-12T10:12:30+08:00) source · 整理两个独立公开仓库与许可 [完成]
+- [x] (2026-10-12T10:12:30+08:00) onboarding · 安装、示例、贡献与升级文档可独立使用 [完成]
+- [x] (2026-10-12T10:12:30+08:00) candidate · 自动与本机验证通过并发布候选版本 [完成]
+- [ ] (2026-10-12T10:12:30+08:00) trial · 使用者实测与协作闭环后发布稳定版 [待做]
 <!-- execplan-summary:end -->
 
 ## Surprises & Discoveries
@@ -89,6 +90,7 @@
 - 本仓库原有 README 说明初始公开导出没有再利用许可。加入 MIT 后须一并更正文档和 npm 元数据。
 - `markdown-it` 14.1.0 有已公布的拒绝服务问题；升级至 14.3.2 后 npm 审计为 0 项已知漏洞，本地单元、原生集成和从 tgz 安装的 smoke 检查通过。
 - GitHub CLI 的 OAuth 凭证缺少 `workflow` scope。ExecPlan 的源码先以该凭证推送，CI 文件再用已连接的 GitHub 工具创建；远程 CI 提交已快进同步到本地，没有改变全局认证配置。
+- 候选版最终核对发现安装预检只提示“安装依赖”，未给具体命令。两个仓库各自通过 PR 修正提示并发布 rc.2；既有 rc.1 资产没有替换。
 
 ## Decision Log
 
@@ -97,7 +99,7 @@
 
 ## Outcomes & Retrospective
 
-已达到候选版交付：ExecPlan 主分支 `4d19a87`，候选版 `v0.1.0-rc.1`；Workbench 共享 PR #1 合并提交 `777dda98`，候选版 `v0.11.2-rc.1`。两个公开仓库的 MIT 许可、Issues 和 Discussions 均已在线核对，主分支要求 CI 及 PR。候选资产从 GitHub Release 重新下载并通过 SHA-256 检查；本机与线上自动验证见下文。另一位使用者的安装、实际架构图修改、计划维护、Issue 与文档 PR 尚未发生，稳定版及最终验收仍待这些证据。
+已达到候选版交付：ExecPlan 初次公开提交 `4d19a87`，当前候选版 `v0.1.0-rc.2`；Workbench 共享 PR #1 合并提交 `777dda98`，当前候选版 `v0.11.2-rc.2`。两个公开仓库的 MIT 许可、Issues 和 Discussions 均已在线核对，主分支要求 CI 及 PR。候选资产从 GitHub Release 重新下载并通过 SHA-256 检查；本机与线上自动验证见下文。另一位使用者的安装、实际架构图修改、计划维护、Issue 与文档 PR 尚未发生，稳定版及最终验收仍待这些证据。
 
 ## Context and Orientation
 
@@ -123,7 +125,7 @@
 
 ## Artifacts and Notes
 
-仓库 URL：`https://github.com/gbm19950414-ux/diagram-workbench` 与 `https://github.com/gbm19950414-ux/exec-plan`。ExecPlan GitHub Actions `38193168594`、Workbench PR Actions `38193537032` 和主分支 Actions `38193763055` 成功。本机已观察 Workbench 62 项单元测试、5 项原生集成测试及实际 `.tgz` 的 build/check/preview 通过；ExecPlan 3 项测试、虚构合计示例和进度 `check` 通过。ExecPlan 发行包 SHA-256 为 `e1f279ab241be4030ff64115339e89fd30f8df7a6d77a00ef023ae101ffe7470`；Workbench 发行包为 `585e1ad74848f0c3dc0cddd3b88078baa5e3ec7496ac7f648312ad631ffe63e7`。两个包均从 GitHub Release 重新下载校验通过。试用者环境与实测结果尚待记录。
+仓库 URL：`https://github.com/gbm19950414-ux/diagram-workbench` 与 `https://github.com/gbm19950414-ux/exec-plan`。ExecPlan GitHub Actions `38194461411`、`38194520155`，Workbench Actions `38194461140`、`38194647767` 均成功。本机已观察 Workbench 62 项单元测试、5 项原生集成测试及实际 `.tgz` 的 build/check/preview 通过；ExecPlan 3 项测试、虚构合计示例和进度 `check` 通过。ExecPlan rc.2 发行包 SHA-256 为 `6a17afa3149c481a60805df56d0b796b105d469c56698b0f7ce4f5e686401bde`；Workbench rc.2 发行包为 `8e1fe71c5f070b4c36abb5326eddf9d17450b91c78ffca883979593a10392718`。两个包均从 GitHub Release 重新下载校验通过。试用者环境与实测结果尚待记录。
 
 ## Interfaces and Dependencies
 
@@ -132,3 +134,4 @@ Workbench 维持现有 CLI 与模型协议，Node.js 22+、npm、Graphviz；软�
 Change note (2026-10-12): 根据用户确认的分享方案建立唯一跨仓库实施计划。
 Change note (2026-10-12): 记录 ExecPlan 仓库与 CI 上线、本机验证和 GitHub 工作流上传方式；Workbench 候选版仍待发布。
 Change note (2026-10-12): 两个候选版、线上 CI、发布包哈希和远程复验均已记录；保留使用者试用与稳定版里程碑。
+Change note (2026-10-12): 补齐安装脚本的依赖处理命令并发布两个 rc.2；记录当前推荐版本与重新下载的校验值。
