@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.11.2-rc.1 — shareable release candidate
+
+- Add MIT licensing, third-party notices, fixed-version Codex skill installation, examples, and contribution workflow.
+- Include reviewed guidance for naming and reusing architecture views.
+- Update markdown-it to 14.3.2 to address published denial-of-service advisories; verify rendered output with the full suite.
+- Preserve the existing CLI, model schema, and semantic review requirements.
+
 ## 0.11.1 — grouped source evidence
 
 - Show one complete paragraph per occurrence when several exact evidence ranges point into the same paragraph. Merge overlapping and adjacent highlights, preserve separate ranges, and retain safe native tables.

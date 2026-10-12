@@ -2,6 +2,8 @@
 
 Use the project path and a mode in every request. The mode fixes the workflow gates; the question, evidence and diagram selection remain project-specific.
 
+Before selecting or adding views, apply the skill's [view naming, questions and reuse reference](../skills/diagram-workbench/references/architecture-views.md). It defines the shared vocabulary and update-versus-add decision; keep the concrete inventory and source-owned labels with each consumer.
+
 ## Establish
 
 ```

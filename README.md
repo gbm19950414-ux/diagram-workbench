@@ -1,26 +1,29 @@
 # Diagram Workbench
 
-## Public source edition · 0.11.1
+## 公开版 · 0.11.2-rc.1
 
-Evidence-linked diagrams and local readers for software architecture and structured knowledge. Built iteratively with AI assistance. This public snapshot includes reusable tooling and fictional fixtures, not consumer projects or private knowledge sources. A generated diagram does not certify the correctness of its content.
+本仓库提供架构图与领域模型的共享工具、Codex skill 和虚构示例。模型事实、审查结论及生成物由使用项目保存；生成图本身不证明内容正确。原创代码和文档采用 [MIT 许可证](LICENSE)；随包交付的第三方组件保留其原许可证。`package.json` 的 `private: true` 仅阻止误发 npm registry，不限制这个 GitHub 仓库的开源使用。
 
-For the shortest portable demo (Node.js 22+; no Java required):
+**新使用者先看 [一页上手指引](docs/for-a-friend.md) 和 [安装与升级](docs/installation.md)。** 本仓库与独立的 [ExecPlan](https://github.com/gbm19950414-ux/exec-plan) 仓库分别维护、分别发布。遇到错误先看 [故障排查](docs/troubleshooting.md)；改进请读 [贡献指南](CONTRIBUTING.md)。
+
+最快的领域模型示例只需 Node.js 22+ 与 npm：
 
 ```sh
 npm ci
 npm test
 node bin/diagram-workbench.mjs build --project examples/source-block-v5
+node bin/diagram-workbench.mjs status --project examples/source-block-v5
 node bin/diagram-workbench.mjs preview --project examples/source-block-v5
 ```
 
-The example is explicitly fictional. Building permits inspection but does not count as semantic review: `check` reports `needs-review` until a reviewer actually checks the fixture and records their conclusion using `review`. Stop the local preview with Ctrl-C.
+这个示例是虚构的。读完 `examples/source-block-v5/README.md`、模型与依据后，再用自己的名字运行 `review`；随后重新 `build`，并用 `check` 验证。预览用 Ctrl-C 结束。
 
-The software-architecture renderer bootstrap and standalone app packaging currently target **macOS arm64**. The domain renderer uses Node/SVG/HTML. Run the full native suite after setting up the pinned toolchain: `node bin/diagram-workbench.mjs setup --project .` then `npm run test:integration`.
+软件架构渲染的固定工具链目前支持 **macOS arm64**。它还需 Graphviz；`setup` 会下载并校验固定版本的 Java、Structurizr 和 PlantUML。开发者验证命令是 `node bin/diagram-workbench.mjs setup --project .` 和 `npm run test:integration`。
 
-`PUBLIC_EXPORT.json` identifies the source commit and file hashes. Historical local verification receipts were omitted because they do not validate this export. The source engine is unchanged. No additional reuse license is granted by this initial public export; dependencies retain their own licenses.
+`PUBLIC_EXPORT.json` 记录首次公开快照的来源与哈希；它不是后续提交的实时清单。首次导出时省略了旧的本地验证记录，后续版本按各自测试和 Release 记录验证。
 
 
-把项目知识表达成可编辑、可核对、可重复生成的结构与行为图。0.4 保留已有 C4 / Structurizr、PlantUML 与证据检查能力，并通过绘图目标接口支持非软件领域模型。
+把项目知识表达成可编辑、可核对、可重复生成的结构与行为图。当前版本保留 C4 / Structurizr、PlantUML 与证据检查能力，并通过绘图目标接口支持非软件领域模型。
 
 工具维护表达和检查机制；使用项目维护模型、事实、假设、决策与审查结论。绘图是“提问—建模—核验—修正”中的一种手段，工具不会判断架构语义已经正确，也不会自动把源码状态认定为部署事实。
 
@@ -53,16 +56,7 @@ The software-architecture renderer bootstrap and standalone app packaging curren
 
 环境：Node.js 22+、npm。软件架构目标另需 Graphviz，固定的 Java、Structurizr、PlantUML bootstrap 当前面向 macOS arm64；领域模型目标使用包内 SVG/HTML 渲染，不启动这些原生工具。
 
-```sh
-npm ci
-node bin/diagram-workbench.mjs init --project /path/to/new-project --title '项目名称'
-node bin/diagram-workbench.mjs setup --project .
-node bin/diagram-workbench.mjs status --project .
-node bin/diagram-workbench.mjs review --project . --reviewer YOUR_NAME --decision updated --note '已逐项核对工具源码、结构边界和构建时序，仅表示这组源码的静态模型。'
-node bin/diagram-workbench.mjs build --project .
-node bin/diagram-workbench.mjs check --project .
-node bin/diagram-workbench.mjs preview --project .
-```
+使用新项目时，先按 [安装说明](docs/installation.md) 固定工具版本，然后在**同一个目标项目**中依次运行 `init`、阅读并替换草稿、`setup`、`status`、`review`、`build`、`check`、`preview`。软件目标的完整命令与预期输出见 [一页上手指引](docs/for-a-friend.md)。`review` 必须由真正核对过依据的人执行，不应从模板直接复制审查结论。
 
 `init` 只创建未审查的起始图源、配置、证据占位与项目 skill，绝不根据目录结构猜测架构事实，也不安装或升级依赖。随后用固定版本的包完成证据盘点并替换草稿。`status` 是只读摘要：报告当前模型是否需要复审，以及上次阅读产物是否仍匹配输入和哈希。`--project` 显式指定项目根目录；`--config` 默认是该目录内的 `diagram.config.json`，与调用时工作目录无关。正式示例就是本项目自身，图源位于 `docs/architecture`；`examples/minimal` 只用于自动化回归。真实项目应先完成语义审查，才运行 `review` 记录结论。
 
