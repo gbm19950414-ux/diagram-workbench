@@ -29,10 +29,10 @@ case "$action" in
       printf 'This release supports Apple Silicon macOS (arm64).\n' >&2
       exit 1
     fi
-    command -v node >/dev/null 2>&1 || { printf 'Install Node.js 22 or newer.\n' >&2; exit 1; }
-    node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 22 ? 0 : 1)' || { printf 'Install Node.js 22 or newer.\n' >&2; exit 1; }
-    command -v npm >/dev/null 2>&1 || { printf 'Install npm with Node.js.\n' >&2; exit 1; }
-    command -v dot >/dev/null 2>&1 || { printf 'Install Graphviz for software architecture diagrams (dot command).\n' >&2; exit 1; }
+    command -v node >/dev/null 2>&1 || { printf 'Install Node.js 22 or newer: brew install node\nThen check: node --version\n' >&2; exit 1; }
+    node -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 22 ? 0 : 1)' || { printf 'Make Node.js 22 or newer the active node: brew install node\nThen check: node --version\n' >&2; exit 1; }
+    command -v npm >/dev/null 2>&1 || { printf 'Install npm with Node.js: brew install node\nThen check: npm --version\n' >&2; exit 1; }
+    command -v dot >/dev/null 2>&1 || { printf 'Install Graphviz: brew install graphviz\nThen check: dot -V\n' >&2; exit 1; }
 
     if [ -L "$link" ] && [ "$(readlink "$link")" = "$source_dir" ]; then
       printf 'Already installed: %s\n' "$link"
